@@ -1,30 +1,22 @@
 name: jacoco-generateAndUploadResults
 description: generates the files for the the jacoco test and uploads them to a branch
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  write-all
 
 inputs:
-  token:
-    required: true
-  minimum_coverage:
-    default: 90
-    required: false
-  generate_svg:
-    description: generate svg
-    default: true
-    required: false
-    type: boolean
+    token:
+        description: token for uploading to a repository
+        required: true
+    minimum_coverage:
+        description: minimum_coverage
+        default: "90"
+        required: false
+    generate_svg:
+        description: generate svg
+        default: "true"
+        required: false
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+runs:
+    using: composite
 
     steps:
       - uses: actions/checkout@v3
@@ -35,8 +27,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+        shell: bash
       - name: Test with Maven
         run: mvn clean test
+        shell: bash
 
       - name: JaCoCo Code Coverage Report
         id: jacoco_reporter
@@ -52,7 +46,7 @@ jobs:
           publish_only_summary: false
 
           
-      - if: ${{ inputs.generate_image }}
+      - if: ${{ inputs.generate_image == "true" }}
         name: create badge
         uses: emibcn/badge-action@v2.0.2
         with:
@@ -83,3 +77,5 @@ jobs:
           
           git commit -m "Add generated files"
           git push --force origin HEAD:reports
+        
+        shell: bash
