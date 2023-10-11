@@ -76,7 +76,7 @@ runs:
       - name: save reports file names
         uses: actions/github-script@v5
         with:
-            script: ./saveNames.py
+            script: saveNames.py
 
       - name: Move files to dist folder
         run: mv target/my-reports/* ./
