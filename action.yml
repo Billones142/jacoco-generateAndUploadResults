@@ -76,6 +76,7 @@ runs:
 
 
       - name: Create new branch
+        continue-on-error: true
         uses: peterjgrainger/action-create-branch@v1.0.0
         env:
           GITHUB_TOKEN: ${{ inputs.token }}
