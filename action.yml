@@ -82,6 +82,7 @@ runs:
 
       - name: Save file names to file
         run: echo ${{ steps.list_files.outputs.files }} > file_names.txt
+        shell: bash
 
 
       - name: Move files to the root folder
