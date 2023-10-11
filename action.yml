@@ -77,6 +77,10 @@ runs:
         uses: actions/github-script@v5
         with:
             script: ./saveNames.py
+
+      - name: Move files to dist folder
+        run: mv target/my-reports/* ./
+
     
       - name: Commit and Push Generated Files
         run: |
