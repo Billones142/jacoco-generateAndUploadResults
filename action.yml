@@ -37,6 +37,7 @@ runs:
           cache: maven
         
       - name: Test with Maven
+        id: Maven-Test
         run: mvn clean test
         shell: bash
         
@@ -73,12 +74,31 @@ runs:
             steps.jacoco_reporter.outputs.coveragePercentage > 20 && 'red,red,red,orange' ||
             'red' }}
 
-      - name: save reports file names
-        uses: actions/github-script@v5
+      - uses: actions/setup-python@v4
         with:
-            script: "./saveNames.py"
+          python-version: '3.x'
+      - uses: jannekem/run-python-script-action@v1
+        with:
+          script: |
+            import os
+            def save_file_names(folder_path, file_path):
+                with open(file_path, 'w') as f:
+                for file_name in os.listdir(folder_path):
+                f.write(file_name + '\n')
+                
+            if __name__ == '__main__':
+                folder_path = './target/my-reports'
+                file_path = './file_names.txt'
+                save_file_names(folder_path, file_path)
 
-      - name: Move files to dist folder
+
+if __name__ == '__main__':
+  folder_path = './target/my-reports'
+  file_path = './file_names.txt'
+
+  save_file_names(folder_path, file_path)
+
+      - name: Move files to the root folder
         run: mv target/my-reports/* ./
         shell: bash
 
