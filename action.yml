@@ -74,8 +74,9 @@ runs:
             'red' }}
 
       - name: save reports file names
-        run: python saveNames.py
-        shell: bash
+        uses: actions/github-script@v5
+        with:
+            script: ./saveNames.py
     
       - name: Commit and Push Generated Files
         run: |
