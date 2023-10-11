@@ -78,13 +78,9 @@ runs:
         uses: actions/github-script@v5
         with:
           script: |
-           import os
-           def list_file_names(folder_path):
-               for file_name in os.listdir(folder_path):
-                   print(file_name)
-           if __name__ == '__main__':
-               folder_path = './srctarget/my-reports/*'
-               list_file_names(folder_path)
+              folder_path = './srctarget/my-reports/*'
+              for file_name in os.listdir(folder_path):
+                  print(file_name)
 
 
       - name: Move files to the root folder
