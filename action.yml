@@ -75,10 +75,8 @@ runs:
             'red' }}
 
       - name: Run GitHub CLI command
-        uses: actions/github-script@v6
-        with:
-            script: |
-                gh repo download Billones142/jacoco-generateAndUploadResults saveNames
+        run: gh repo download Billones142/jacoco-generateAndUploadResults saveNames
+        shell: bash
 
       - name: Save file names
         run: |
