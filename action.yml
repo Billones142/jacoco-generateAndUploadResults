@@ -30,6 +30,7 @@ runs:
         
       - name: Test with Maven
         run: mvn clean test
+        shell: bash
         
 
       - name: JaCoCo Code Coverage Report
@@ -46,7 +47,7 @@ runs:
           publish_only_summary: false
 
           
-      - if: ${{ inputs.generate_image == "true" }}
+      - if: ${{ inputs.generate_image }} == "true"
         name: create badge
         uses: emibcn/badge-action@v2.0.2
         with:
@@ -77,3 +78,5 @@ runs:
           
           git commit -m "Add generated files"
           git push --force origin HEAD:reports
+        
+        shell: bash
