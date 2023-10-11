@@ -78,7 +78,7 @@ runs:
       - name: Create new branch
         uses: peterjgrainger/action-create-branch@v1.0.0
         env:
-          GITHUB_TOKEN: ${{ input.token }}
+          GITHUB_TOKEN: ${{ inputs.token }}
         with:
           branch: ${{ inputs.branch_name }}
 
