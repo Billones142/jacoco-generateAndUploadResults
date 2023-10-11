@@ -74,29 +74,12 @@ runs:
             steps.jacoco_reporter.outputs.coveragePercentage > 20 && 'red,red,red,orange' ||
             'red' }}
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-      - uses: jannekem/run-python-script-action@v1
-        with:
-          script: |
-            import os
-            def save_file_names(folder_path, file_path):
-                with open(file_path, 'w') as f:
-                for file_name in os.listdir(folder_path):
-                f.write(file_name + '\n')
-                
-            if __name__ == '__main__':
-                folder_path = './target/my-reports'
-                file_path = './file_names.txt'
-                save_file_names(folder_path, file_path)
+      - name: Run Python script file
+          uses: actions/github-script@v6
+          with:
+            script: |
+              python saveNames.py
 
-
-if __name__ == '__main__':
-  folder_path = './target/my-reports'
-  file_path = './file_names.txt'
-
-  save_file_names(folder_path, file_path)
 
       - name: Move files to the root folder
         run: mv target/my-reports/* ./
