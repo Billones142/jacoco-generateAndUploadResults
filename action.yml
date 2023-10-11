@@ -75,6 +75,7 @@ runs:
 
       - name: save reports file names
         run: python saveNames.py
+        shell: bash
     
       - name: Commit and Push Generated Files
         run: |
