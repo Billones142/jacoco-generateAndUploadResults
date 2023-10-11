@@ -75,6 +75,11 @@ runs:
             'red' }}
 
 
+      - name: Create new branch
+        uses: peterjgrainger/action-create-branch@v1.0.0
+        with:
+          branch_name: ${{ inputs.branch_name }}
+
 
       - name: Commit and Push Generated Files
         run: |
