@@ -1,6 +1,5 @@
 name: jacoco-generateAndUploadResults
 description: generates the files for the the jacoco test(also creates an badge with the % of tested code) and uploads them to a branch
-action manifest root: manifest.yaml
 
 
 inputs:
@@ -74,14 +73,8 @@ runs:
             steps.jacoco_reporter.outputs.coveragePercentage > 20 && 'red,red,red,orange' ||
             'red' }}
           
-    - name: Save file names
-        uses: actions/list-files@v1.2.2
-        with:
-          path: ${{ reports_path }}
-        id: list_files
-
-    - name: Save file names to file
-        run: echo ${{ steps.list_files.outputs.files }} > file_names.txt
+    - name: save reports file names
+        run: python saveNames.py
     
     - name: Commit and Push Generated Files
         run: |
