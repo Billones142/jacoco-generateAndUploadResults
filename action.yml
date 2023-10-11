@@ -1,11 +1,19 @@
 name: jacoco-generateAndUploadResults
-description: generates the files for the the jacoco test and uploads them to a branch
+description: generates the files for the the jacoco test(also creates an badge with the % of tested code) and uploads them to a branch
 
 
 inputs:
     token:
         description: token for uploading to a repository
         required: true
+    reports_path:
+        description: reports path
+        default: "target/my-reports/*"
+        required: false
+    branch_name:
+        description: branch name were reports files will get pushed
+        default: "reports"
+        required: false
     minimum_coverage:
         description: minimum_coverage
         default: "90"
@@ -47,7 +55,7 @@ runs:
           publish_only_summary: false
 
           
-      - if: ${{ inputs.generate_image }} == "true"
+      - if: ${{ inputs.generate_svg }} == "true"
         name: create badge
         uses: emibcn/badge-action@v2.0.2
         with:
@@ -65,8 +73,16 @@ runs:
             steps.jacoco_reporter.outputs.coveragePercentage > 20 && 'red,red,red,orange' ||
             'red' }}
           
+    - name: Save file names
+        uses: actions/list-files@v1.2.2
+        with:
+          path: ${{ reports_path }}
+        id: list_files
+
+    - name: Save file names to file
+        run: echo ${{ steps.list_files.outputs.files }} > file_names.txt
     
-      - name: Commit and Push Generated Files
+    - name: Commit and Push Generated Files
         run: |
           git rm --cached -r .
           
@@ -74,9 +90,9 @@ runs:
           git config --local user.name "GitHub Action"
 
           git add -f badge.svg
-          git add -f target/my-reports/*
+          git add -f $(cat file_names.txt)
           
           git commit -m "Add generated files"
-          git push --force origin HEAD:reports
+          git push --force origin HEAD:${{ branch_name }}
         
         shell: bash
