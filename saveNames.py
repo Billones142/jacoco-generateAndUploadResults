@@ -14,7 +14,7 @@ def save_file_names(folder_path, file_path):
 
 
 if __name__ == '__main__':
-  folder_path = './my_folder'
+  folder_path = './target/my-reports'
   file_path = './file_names.txt'
 
   save_file_names(folder_path, file_path)
