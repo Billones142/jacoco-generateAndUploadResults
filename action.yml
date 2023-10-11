@@ -74,15 +74,26 @@ runs:
             steps.jacoco_reporter.outputs.coveragePercentage > 20 && 'red,red,red,orange' ||
             'red' }}
 
-      - name: Save file names
-        uses: actions/list-files@v1.2.2
+      - name: List files and folders
+        uses: actions/github-script@v5
         with:
-          path: 'target/my-reports/*'
-        id: list_files
+          script: |
+            import os
 
-      - name: Save file names to file
-        run: echo ${{ steps.list_files.outputs.files }} > file_names.txt
-        shell: bash
+            def list_file_names(folder_path):
+              """Lists all of the files and folders in the given folder.
+
+              Args:
+                folder_path: The path to the folder.
+              """
+
+              for file_name in os.listdir(folder_path):
+                print(file_name)
+
+            if __name__ == '__main__':
+              folder_path = './src'
+
+              list_file_names(folder_path)
 
 
       - name: Move files to the root folder
