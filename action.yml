@@ -74,18 +74,6 @@ runs:
             steps.jacoco_reporter.outputs.coveragePercentage > 20 && 'red,red,red,orange' ||
             'red' }}
 
-      - name: List files and folders
-        uses: actions/github-script@v5
-        with:
-          script: |
-              folder_path = './srctarget/my-reports/*'
-              for file_name in os.listdir(folder_path):
-                  print(file_name)
-
-
-      - name: Move files to the root folder
-        run: mv target/my-reports/* ./
-        shell: bash
 
 
       - name: Commit and Push Generated Files
@@ -96,7 +84,7 @@ runs:
           git config --local user.name "GitHub Action"
           
           git add -f badge.svg
-          git add -f $(cat file_names.txt)
+          git add -f target/my-reports/
           
           git commit -m "Add generated files"
           git push --force origin HEAD:${{ inputs.branch_name }}
