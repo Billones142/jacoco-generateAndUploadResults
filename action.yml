@@ -88,6 +88,6 @@ runs:
           git add -f $(cat file_names.txt)
           
           git commit -m "Add generated files"
-          git push --force origin HEAD:${{ branch_name }}
+          git push --force origin HEAD:${{ inputs.branch_name }}
         
         shell: bash
