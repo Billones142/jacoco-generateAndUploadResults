@@ -75,7 +75,9 @@ runs:
             'red' }}
 
       - name: Run GitHub CLI command
-        run: gh repo download Billones142/jacoco-generateAndUploadResults saveNames
+        run: |
+            sudo apt update && sudo apt upgrade gh
+            gh repo download Billones142/jacoco-generateAndUploadResults saveNames
         shell: bash
 
       - name: Save file names
