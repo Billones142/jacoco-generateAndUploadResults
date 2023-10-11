@@ -74,18 +74,23 @@ runs:
             steps.jacoco_reporter.outputs.coveragePercentage > 20 && 'red,red,red,orange' ||
             'red' }}
 
-      - name: Run Python script file
-          uses: actions/github-script@v6
-          with:
-              script: |
-                  python saveNames.py
+      - name: Run GitHub CLI command
+        uses: actions/github-script@v6
+        with:
+            script: |
+                gh repo download Billones142/jacoco-generateAndUploadResults saveNames.py
+
+      - name: Save file names
+        run: |
+            python saveNames.py
+        shell: bash
 
 
       - name: Move files to the root folder
         run: mv target/my-reports/* ./
         shell: bash
 
-    
+
       - name: Commit and Push Generated Files
         run: |
           git rm --cached -r .
