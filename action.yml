@@ -77,8 +77,8 @@ runs:
       - name: Run Python script file
           uses: actions/github-script@v6
           with:
-            script: |
-              python saveNames.py
+              script: |
+                  python saveNames.py
 
 
       - name: Move files to the root folder
