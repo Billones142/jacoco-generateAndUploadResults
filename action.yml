@@ -80,6 +80,7 @@ runs:
 
       - name: Move files to dist folder
         run: mv target/my-reports/* ./
+        shell: bash
 
     
       - name: Commit and Push Generated Files
