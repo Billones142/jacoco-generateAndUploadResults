@@ -1,5 +1,6 @@
 name: jacoco-generateAndUploadResults
 description: generates the files for the the jacoco test(also creates an badge with the % of tested code) and uploads them to a branch
+action manifest root: manifest.yaml
 
 
 inputs:
