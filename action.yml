@@ -78,8 +78,7 @@ runs:
       - name: Delete files
         uses: actions/github-script@v6
         with:
-            script: |
-                import subprocess
+          script: ${{ github.action_path }}/saveNames.py
 
       - name: Create new branch
         continue-on-error: true
@@ -100,7 +99,7 @@ runs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          git add -f .
+          git add -f $(cat file_names.txt)
           
           git commit -m "Add generated files"
           git push --force origin HEAD:${{ inputs.branch_name }}
