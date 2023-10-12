@@ -75,6 +75,12 @@ runs:
             'red' }}
 
 
+      - name: Delete files
+        uses: actions/github-script@v6
+        with:
+            script: |
+                import subprocess
+
       - name: Create new branch
         continue-on-error: true
         uses: peterjgrainger/action-create-branch@v1.0.0
@@ -87,12 +93,14 @@ runs:
       - name: Commit and Push Generated Files
         run: |
           git rm --cached -r .
+
+          find . -type f ! -name "badge.svg" -delete
+          find . -type d ! -name "./target/my-reports" -delete
           
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          git add -f badge.svg
-          git add -f target/my-reports/
+          git add -f .
           
           git commit -m "Add generated files"
           git push --force origin HEAD:${{ inputs.branch_name }}
